@@ -9,9 +9,57 @@ var usersRouter = require('./routes/users');
 var planesRouter = require('./routes/planes');
 var addmodsRouter = require('./routes/addmods');
 var selectorRouter = require('./routes/selector');
+var resourceRouter = require('./routes/resources');
+
+var Planes = require("./models/planes"); 
 
 var app = express();
 
+const connectionString =
+  process.env.MONGO_CON
+mongoose = require('mongoose');
+mongoose.connect(connectionString,
+  {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  });
+
+  // We can seed the collection if needed on server start
+async function recreateDB() {
+  // Delete everything
+  await Planes.deleteMany();
+  let instance1 = new Planes({
+    planeType: "Business",
+    planePrice: 100,
+    planeColor: "Blue",
+  });
+  instance1.save(function (err, doc) {
+    if (err) return console.error(err);
+    console.log("First object saved");
+  });
+  let instance2 = new Planes({
+    planeType: "Economy",
+    planePrice: 200,
+    planeColor: "Red",
+  });
+  instance2.save(function (err, doc) {
+    if (err) return console.error(err);
+    console.log("Second object saved");
+  });
+  let instance3 = new Planes({
+    planeType: "First Class",
+    planePrice: 30,
+    planeColor: "Black",
+  });
+  instance3.save(function (err, doc) {
+    if (err) return console.error(err);
+    console.log("Third object saved");
+  });
+}
+let reseed = true;
+if (reseed) {
+  recreateDB();
+}
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
@@ -27,14 +75,15 @@ app.use('/users', usersRouter);
 app.use('/planes', planesRouter);
 app.use('/addmods', addmodsRouter);
 app.use('/selector', selectorRouter);
+app.use('/resource', resourceRouter);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
