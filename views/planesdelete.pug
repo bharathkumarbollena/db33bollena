@@ -1,0 +1,53 @@
+extends layout
+
+block content
+  h1= title
+
+  if (toShow == null)
+    h2 No instance to delete
+  else
+    - let planeid = toShow._id
+    - let planeType = toShow.planeType
+    - let planePrice = toShow.planePrice
+    - let planeColor = toShow.planeColor
+    - let actionid = "/resource/planes/" + planeid
+    script let actionid = "#{actionid}"
+    div
+      div.row
+        div(class='costumeAttr mr-3') Plane ID is:
+        div #{planeid}
+      div.row
+        div(class='costumeAttr mr-3') Plane Type is:
+        div #{planeType}
+      div.row
+        div(class='costumeAttr mr-3') Plane planePrice is:
+        div #{planePrice}
+      div.row
+        div(class='costumeAttr mr-3') Plane planeColor is:
+        div #{planeColor}
+
+    button(class="btn btn-danger" onclick="deleteOnid()") Delete
+    button(class="btn btn-secondary" onclick="cancel()") Cancel
+
+  script.
+    function cancel() {
+      // Go back to the home page for the costume collection
+      window.location.href='/planes'
+    }
+  script.
+    function deleteOnid() {
+      console.log("starting delete")
+      // delete first
+      fetch(actionid, {
+        method: 'DELETE'      // Don't need a body for the delete
+      }).then((resp) => {
+        return resp.json(); // or resp.text() or whatever the server sends
+      }).then((body) => {
+        alert("Delete succeded")
+        window.location.href='/planes'
+        // TODO handle body
+      }).catch((error) => {
+        // TODO handle error
+        alert("Delete failed " + error )
+      });
+    }

@@ -1,0 +1,48 @@
+extends layout
+
+block content
+  h1= title
+  if (toShow == null)
+    h2 No instance to update
+  else
+    - let planeid = toShow._id
+    - let planeType = toShow.planeType
+    - let planePrice = toShow.planePrice
+    - let planceColor = toShow.planceColor
+    
+    div.row(class='mb-2')
+        div.mr-1 ID is
+        div #{planeid}
+    - let actionid = "/resource/planes/" + planeid
+    form(id='PlanesForm', action= actionid, method="PUT")
+        div.form-group
+            label.costumeAttr(for='planeType') Plane Type
+            input#planeType(type='text', name='planeType', value= planeType )
+        div.form-group
+            label.costumeAttr(for='planePrice') Plane Price
+            input#planePrice(type='number', name='planePrice', value= planePrice )
+        div.form-group
+            label.costumeAttr(for='planceColor') Plane Color
+            input#habitat(type='text', name='planceColor', value= planceColor )
+
+        input(type="submit")
+
+    script.
+        document.forms['PlanesForm'].addEventListener('submit', (event) => {
+        event.preventDefault();
+        console.log(event.target)
+        // TODO do something here to show user that form is being submitted
+        fetch(event.target.action, {
+            method: 'PUT',
+            body: new URLSearchParams(new FormData(event.target)) // event.target is the form
+        }).then((resp) => {
+            return resp.json(); // or resp.text() or whatever the server sends
+        }).then((body) => {
+            alert("Update succeded")
+            window.location.href='/planes'
+            // TODO handle body
+        }).catch((error) => {
+            // TODO handle error
+            alert("Update failed " + error )
+        });
+        });

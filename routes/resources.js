@@ -4,6 +4,7 @@ var router = express.Router();
 // Require controller modules. 
 var api_controller = require('../controllers/api'); 
 var planes_controller = require('../controllers/planes'); 
+const planes = require('../models/planes');
  
 /// API ROUTE /// 
  
@@ -16,8 +17,7 @@ router.get('/', api_controller.api);
 router.post('/planes', planes_controller.plane_create_post); 
  
 // DELETE request to delete Costume. 
-router.delete('/planes/:id', planes_controller.plane_delete); 
- 
+router.delete('/planes/:id', planes_controller.Planes_delete); 
 // PUT request to update Costume. 
 router.put('/planes/:id', planes_controller.plane_update_put); 
  

@@ -6,9 +6,7 @@ block content
   div(class="row")
     each plane,index in planes 
         div(class="col-sm-4" onclick=`buy(${index})`) #{plane.planeType} - #{plane.planePrice} - #{plane.planeColor}
-
-
-
+        
     script.
 
       function buy(itemNo)

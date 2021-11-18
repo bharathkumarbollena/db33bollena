@@ -1,0 +1,24 @@
+extends layout
+
+block content
+  h1(id="title")= title
+  if (toShow == null)
+    h2 No instance to Display
+  else
+    - let planeid = toShow._id
+    - let planeType = toShow.planeType
+    - let planePrice = toShow.planePrice
+    - let planeColor = toShow.planeColor
+    div
+      div.row
+        div(class='costumeAttr mr-3') Plane ID is:
+        div(class='values spcl') #{planeid}
+      div.row
+        div(class='costumeAttr mr-3') Plane Type is:
+        div(class="values") #{planeType}
+      div.row
+        div(class='costumeAttr mr-3') Plane Price is:
+        div(class="values") #{planePrice}
+      div.row
+        div(class='costumeAttr mr-3') Plane Color is:
+        div(class="values") #{planeColor}

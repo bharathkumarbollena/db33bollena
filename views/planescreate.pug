@@ -1,0 +1,37 @@
+extends layout
+
+block content
+  h1= title
+
+  form(class='container-fluid' id='PlaneForm', action="/resource/planes", method="POST")
+    div.form-group.col-md-6 
+        label.costumeAttr(for='planeType', class='') plane Type
+        input#costumetype(type='text', name='planeType')
+    div.form-group.col-md-6 
+        label.costumeAttr(for='planePrice') plane Price
+        input#cost(type='number', name='planePrice')
+    div.form-group.col-md-6
+        label.costumeAttr(for='planeColor') plane Color
+        input#size(type='text', name='planeColor')
+
+    button(class='btn btn-success' type="submit") Create
+
+  script.
+    document.forms['PlaneForm'].addEventListener('submit', (event) => {
+      event.preventDefault();
+      // TODO do something here to show user that form is being submitted
+      fetch(event.target.action, {
+        method: 'POST',
+        body: new URLSearchParams(new FormData(event.target)) // event.target is the form
+      }).then((resp) => {
+          
+        return resp.json(); // or resp.text() or whatever the server sends
+      }).then((body) => {
+        alert("Save succeded")
+        window.location.href='/planes'
+        // TODO handle body
+      }).catch((error) => {
+        // TODO handle error
+        alert("Save failed " + error )
+      });
+    });
