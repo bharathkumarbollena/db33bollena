@@ -5,12 +5,17 @@ block content
   div(class="container-fluid mt-3")
   div(class="row")
     each plane,index in planes 
+      - let destination = `dispatch(\"/planes/update?id=${plane._id}\")`
         div(class="col-sm-4" onclick=`buy(${index})`) #{plane.planeType} - #{plane.planePrice} - #{plane.planeColor}
-        
+        button.btn( class="btn-primary ml-1", onclick= destination) Update
     script.
 
       function buy(itemNo)
       {
         alert(`You purchased Item ${itemNo+1}`)
-      } 
+      }
+      function dispatch(path)
+      {
+        window.location.href=path
+      }
     
